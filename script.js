@@ -267,7 +267,7 @@ whatsappCheckoutBtn.addEventListener('click', () => {
     message += `Please confirm my order. Thank you! ✨`;
 
     const encodedMsg = encodeURIComponent(message);
-    const whatsappURL = `https://api.whatsapp.com/send?phone=${9788631351}&text=${encodedMsg}`;
+    const whatsappURL = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodedMsg}`;
 
     window.open(whatsappURL, '_blank');
 });
