@@ -1,302 +1,302 @@
+// ==========================================================================
+// Sweet Haven Bakery — script.js
+// ==========================================================================
 
-        // ==========================================================================
-        // === JS FILE START (Idhai mattum copy panni 'script.js' la podavum) ===
-        // ==========================================================================
-        
-        // Configuration for WhatsApp Checkout Method
-        const WHATSAPP_NUMBER = "919876543210"; 
-        
-        // Dynamic Cart Array state
-        let cart = [];
+const WHATSAPP_NUMBER = "919876543210";
 
-        // DOM elements cache
-        const openCartBtn = document.getElementById('openCartBtn');
-        const closeCartBtn = document.getElementById('closeCartBtn');
-        const cartSidebar = document.getElementById('cartSidebar');
-        const cartOverlay = document.getElementById('cartOverlay');
-        const cartTotalPrice = document.getElementById('cartTotalPrice');
-        const cartCountBadge = document.getElementById('cart-count');
-        const cartItemsList = document.getElementById('cartItemsList');
-        const whatsappCheckoutBtn = document.getElementById('whatsappCheckoutBtn');
-        const scrollToTopBtn = document.getElementById("scrollToTopBtn");
-        const toastContainer = document.getElementById("toastContainer");
+let cart = [];
 
-        // Premium Background Image Slideshow Logic
-        const slides = document.querySelectorAll('.hero-slide');
-        const dots = document.querySelectorAll('.hero-dot');
-        const heroBgContainer = document.getElementById('heroBgContainer');
-        
-        let currentSlide = 0;
-        let slideInterval = setInterval(autoPlaySlides, 5000); // 5 Seconds auto-slide interval
+// DOM cache
+const openCartBtn = document.getElementById('openCartBtn');
+const closeCartBtn = document.getElementById('closeCartBtn');
+const cartSidebar = document.getElementById('cartSidebar');
+const cartOverlay = document.getElementById('cartOverlay');
+const cartTotalPrice = document.getElementById('cartTotalPrice');
+const cartCountBadge = document.getElementById('cart-count');
+const cartItemsList = document.getElementById('cartItemsList');
+const whatsappCheckoutBtn = document.getElementById('whatsappCheckoutBtn');
+const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+const toastContainer = document.getElementById("toastContainer");
+const ticketNumberEl = document.getElementById("ticketNumber");
 
-        function showSlide(index) {
-            // Remove active classes
-            slides[currentSlide].classList.remove('active');
-            dots[currentSlide].classList.remove('active');
+// Generate a friendly order ticket number for the session
+ticketNumberEl.textContent = `#${Math.floor(1000 + Math.random() * 9000)}`;
 
-            // Handle boundaries
-            if (index >= slides.length) {
-                currentSlide = 0;
-            } else if (index < 0) {
-                currentSlide = slides.length - 1;
-            } else {
-                currentSlide = index;
-            }
+// ---------- Hero photo slideshow ----------
+const slides = document.querySelectorAll('.hero-slide');
+const dots = document.querySelectorAll('.hero-dot');
+const heroBgContainer = document.getElementById('heroBgContainer');
 
-            // Set active class
-            slides[currentSlide].classList.add('active');
-            dots[currentSlide].classList.add('active');
-        }
+let currentSlide = 0;
+let slideInterval = setInterval(autoPlaySlides, 5000);
 
-        function autoPlaySlides() {
-            showSlide(currentSlide + 1);
-        }
+function showSlide(index) {
+    slides[currentSlide].classList.remove('active');
+    dots[currentSlide].classList.remove('active');
 
-        function resetSlideTimer() {
-            clearInterval(slideInterval);
-            slideInterval = setInterval(autoPlaySlides, 5000);
-        }
+    if (index >= slides.length) {
+        currentSlide = 0;
+    } else if (index < 0) {
+        currentSlide = slides.length - 1;
+    } else {
+        currentSlide = index;
+    }
 
-        // Dot click listeners for slideshow control
-        dots.forEach((dot, idx) => {
-            dot.addEventListener('click', () => {
-                showSlide(idx);
-                resetSlideTimer();
-            });
+    slides[currentSlide].classList.add('active');
+    dots[currentSlide].classList.add('active');
+}
+
+function autoPlaySlides() {
+    showSlide(currentSlide + 1);
+}
+
+function resetSlideTimer() {
+    clearInterval(slideInterval);
+    slideInterval = setInterval(autoPlaySlides, 5000);
+}
+
+dots.forEach((dot, idx) => {
+    dot.addEventListener('click', () => {
+        showSlide(idx);
+        resetSlideTimer();
+    });
+});
+
+// Swipe gestures
+let touchStartX = 0;
+let touchEndX = 0;
+
+heroBgContainer.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+}, { passive: true });
+
+heroBgContainer.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipeGesture();
+}, { passive: true });
+
+function handleSwipeGesture() {
+    const minSwipeDistance = 50;
+    if (touchStartX - touchEndX > minSwipeDistance) {
+        showSlide(currentSlide + 1);
+        resetSlideTimer();
+    } else if (touchEndX - touchStartX > minSwipeDistance) {
+        showSlide(currentSlide - 1);
+        resetSlideTimer();
+    }
+}
+
+// ---------- Category filter tabs ----------
+const filterTabs = document.querySelectorAll('.filter-tab');
+const productCards = document.querySelectorAll('.product-card');
+const emptyFilterMsg = document.getElementById('emptyFilterMsg');
+
+filterTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+        filterTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        const filter = tab.getAttribute('data-filter');
+        let visibleCount = 0;
+
+        productCards.forEach(card => {
+            const matches = filter === 'all' || card.getAttribute('data-category') === filter;
+            card.classList.toggle('hide', !matches);
+            if (matches) visibleCount++;
         });
 
-        // Swipe gestures for background slider on touch screens
-        let touchStartX = 0;
-        let touchEndX = 0;
+        emptyFilterMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+    });
+});
 
-        heroBgContainer.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, { passive: true });
+// ---------- Cart sidebar open/close ----------
+function openCart() {
+    cartSidebar.classList.add('open');
+    cartOverlay.classList.add('show');
+}
 
-        heroBgContainer.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipeGesture();
-        }, { passive: true });
+function closeCart() {
+    cartSidebar.classList.remove('open');
+    cartOverlay.classList.remove('show');
+}
 
-        function handleSwipeGesture() {
-            const minSwipeDistance = 50;
-            if (touchStartX - touchEndX > minSwipeDistance) {
-                showSlide(currentSlide + 1); // Swipe left
-                resetSlideTimer();
-            } else if (touchEndX - touchStartX > minSwipeDistance) {
-                showSlide(currentSlide - 1); // Swipe right
-                resetSlideTimer();
-            }
-        }
+openCartBtn.addEventListener('click', openCart);
+closeCartBtn.addEventListener('click', closeCart);
+cartOverlay.addEventListener('click', closeCart);
 
-        // Open & Close sidebar controls
-        function openCart() {
-            cartSidebar.classList.add('open');
-            cartOverlay.classList.add('show');
-        }
+// ---------- Toast notifications ----------
+function showToast(message) {
+    const toast = document.createElement("div");
+    toast.className = "toast";
+    toast.innerHTML = `<i class="fa-solid fa-circle-check"></i> <span>${message}</span>`;
+    toastContainer.appendChild(toast);
 
-        // <!-- -->
-        function closeCart() {
-            cartSidebar.classList.remove('open');
-            cartOverlay.classList.remove('show');
-        }
+    setTimeout(() => toast.classList.add("show"), 100);
 
-        openCartBtn.addEventListener('click', openCart);
-        closeCartBtn.addEventListener('click', closeCart);
-        cartOverlay.addEventListener('click', closeCart);
+    setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
 
-        // Classy toast notification (Compliant with alert prohibition)
-        function showToast(message) {
-            const toast = document.createElement("div");
-            toast.className = "toast";
-            toast.innerHTML = `<i class="fa-solid fa-circle-check"></i> <span>${message}</span>`;
-            toastContainer.appendChild(toast);
+// ---------- Cart rendering ----------
+function renderCart() {
+    cartItemsList.innerHTML = '';
 
-            // Refined sliding entry animation
-            setTimeout(() => {
-                toast.classList.add("show");
-            }, 100);
+    if (cart.length === 0) {
+        cartItemsList.innerHTML = '<div class="empty-cart-msg">Your ticket is blank! 🍰<br><span>Add something sweet.</span></div>';
+        cartTotalPrice.textContent = 'Rs. 0';
+        cartCountBadge.textContent = '0';
+        return;
+    }
 
-            // Automatic dismissal
-            setTimeout(() => {
-                toast.classList.remove("show");
-                setTimeout(() => {
-                    toast.remove();
-                }, 300);
-            }, 3000);
-        }
+    let total = 0;
+    let countItems = 0;
 
-        // Render Cart items cleanly
-        function renderCart() {
-            cartItemsList.innerHTML = '';
-            
-            if (cart.length === 0) {
-                cartItemsList.innerHTML = '<div class="empty-cart-msg">Your cart is empty! 🍰</div>';
-                cartTotalPrice.textContent = 'Rs. 0';
-                cartCountBadge.textContent = '0';
-                return;
-            }
+    cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        countItems += item.quantity;
 
-            let total = 0;
-            let countItems = 0;
+        const itemElement = document.createElement('div');
+        itemElement.className = 'cart-item';
+        itemElement.innerHTML = `
+            <img src="${item.img}" alt="${item.name}">
+            <div class="cart-item-info">
+                <div class="cart-item-title">${item.name}</div>
+                <div class="cart-item-price">Rs. ${item.price}</div>
+                <div class="quantity-control">
+                    <button class="quantity-btn decrease-qty" data-id="${item.id}">-</button>
+                    <span class="item-quantity">${item.quantity}</span>
+                    <button class="quantity-btn increase-qty" data-id="${item.id}">+</button>
+                </div>
+            </div>
+            <button class="remove-item-btn remove-qty" data-id="${item.id}">
+                <i class="fa-solid fa-trash"></i>
+            </button>
+        `;
+        cartItemsList.appendChild(itemElement);
+    });
 
-            cart.forEach(item => {
-                const itemTotal = item.price * item.quantity;
-                total += itemTotal;
-                countItems += item.quantity;
+    cartTotalPrice.textContent = `Rs. ${total}`;
+    cartCountBadge.textContent = countItems;
 
-                const itemElement = document.createElement('div');
-                itemElement.className = 'cart-item';
-                itemElement.innerHTML = `
-                    <img src="${item.img}" alt="${item.name}">
-                    <div class="cart-item-info">
-                        <div class="cart-item-title">${item.name}</div>
-                        <div class="cart-item-price">Rs. ${item.price}</div>
-                        <div class="quantity-control">
-                            <button class="quantity-btn decrease-qty" data-id="${item.id}">-</button>
-                            <span class="item-quantity">${item.quantity}</span>
-                            <button class="quantity-btn increase-qty" data-id="${item.id}">+</button>
-                        </div>
-                    </div>
-                    <button class="remove-item-btn remove-qty" data-id="${item.id}">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                `;
-                cartItemsList.appendChild(itemElement);
-            });
+    attachCartActionListeners();
+}
 
-            cartTotalPrice.textContent = `Rs. ${total}`;
-            cartCountBadge.textContent = countItems;
-
-            attachCartActionListeners();
-        }
-
-        // Action controllers for dynamic elements inside Sidebar
-        function attachCartActionListeners() {
-            // Qty Increment (+) click
-            document.querySelectorAll('.increase-qty').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const id = btn.getAttribute('data-id');
-                    const item = cart.find(x => x.id === id);
-                    if (item) {
-                        item.quantity += 1;
-                        renderCart();
-                    }
-                });
-            });
-
-            // Qty Decrement (-) click
-            document.querySelectorAll('.decrease-qty').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const id = btn.getAttribute('data-id');
-                    const item = cart.find(x => x.id === id);
-                    if (item) {
-                        item.quantity -= 1;
-                        if (item.quantity <= 0) {
-                            cart = cart.filter(x => x.id !== id);
-                        }
-                        renderCart();
-                    }
-                });
-            });
-
-            // Full removal click
-            document.querySelectorAll('.remove-qty').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const id = btn.getAttribute('data-id');
-                    cart = cart.filter(x => x.id !== id);
-                    renderCart();
-                });
-            });
-        }
-
-        // Add to Cart handling from Main catalog grid
-        const productAddButtons = document.querySelectorAll('.add-to-cart-btn');
-        productAddButtons.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const productCard = e.target.closest('.product-card');
-                const id = productCard.getAttribute('data-id');
-                const name = productCard.querySelector('h3').textContent;
-                const priceText = productCard.querySelector('.price').textContent;
-                const price = parseInt(priceText.replace('Rs. ', ''));
-                const img = productCard.querySelector('img').src;
-
-                // Check duplicates
-                const existingItem = cart.find(x => x.id === id);
-                if (existingItem) {
-                    existingItem.quantity += 1;
-                } else {
-                    cart.push({ id, name, price, img, quantity: 1 });
-                }
-
+function attachCartActionListeners() {
+    document.querySelectorAll('.increase-qty').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-id');
+            const item = cart.find(x => x.id === id);
+            if (item) {
+                item.quantity += 1;
                 renderCart();
-                showToast(`${name} added to cart!`);
-                openCart(); // Auto trigger sliding cart entry
-            });
-        });
-
-        // Dynamic WhatsApp Receipt Text Formatter
-        whatsappCheckoutBtn.addEventListener('click', () => {
-            if (cart.length === 0) {
-                showToast("Your cart is empty! Add sweet delights first.");
-                return;
             }
-
-            let message = `Hi *Sweet Haven Bakery*! 🍰\nI would like to place a premium order:\n\n`;
-            let grandTotal = 0;
-
-            cart.forEach((item, index) => {
-                const itemTotal = item.price * item.quantity;
-                grandTotal += itemTotal;
-                message += `*${index + 1}. ${item.name}*\n`;
-                message += `   Quantity: ${item.quantity} x Rs. ${item.price}\n`;
-                message += `   Total: Rs. ${itemTotal}\n\n`;
-            });
-
-            message += `--------------------------------\n`;
-            message += `*Grand Total: Rs. ${grandTotal}*\n`;
-            message += `--------------------------------\n`;
-            message += `Please confirm my order details. Thank you! ✨`;
-
-            const encodedMsg = encodeURIComponent(message);
-            const whatsappURL = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodedMsg}`;
-            
-            window.open(whatsappURL, '_blank');
         });
+    });
 
-        // Smooth viewport reveal on scroll
-        function revealOnScroll() {
-            const reveals = document.querySelectorAll(".reveal");
-            const windowHeight = window.innerHeight;
-            const elementVisible = 120;
-
-            reveals.forEach(el => {
-                const elementTop = el.getBoundingClientRect().top;
-                if (elementTop < windowHeight - elementVisible) {
-                    el.classList.add("active");
+    document.querySelectorAll('.decrease-qty').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-id');
+            const item = cart.find(x => x.id === id);
+            if (item) {
+                item.quantity -= 1;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(x => x.id !== id);
                 }
-            });
-        }
-        window.addEventListener("scroll", revealOnScroll);
-        // Trigger once initially
-        revealOnScroll();
-
-        // Smooth scroll floating button visibility control
-        window.onscroll = function() {
-            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-                scrollToTopBtn.style.display = "flex";
-            } else {
-                scrollToTopBtn.style.display = "none";
+                renderCart();
             }
-        };
-
-        scrollToTopBtn.addEventListener("click", () => {
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
         });
+    });
 
-        // ==========================================================================
-        // === JS FILE END ===
-        // ==========================================================================
+    document.querySelectorAll('.remove-qty').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-id');
+            cart = cart.filter(x => x.id !== id);
+            renderCart();
+        });
+    });
+}
+
+// ---------- Add to cart ----------
+const productAddButtons = document.querySelectorAll('.add-to-cart-btn');
+productAddButtons.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        const productCard = e.target.closest('.product-card');
+        const id = productCard.getAttribute('data-id');
+        const name = productCard.querySelector('h3').textContent;
+        const priceText = productCard.querySelector('.price-tag').textContent;
+        const price = parseInt(priceText.replace('Rs. ', ''));
+        const img = productCard.querySelector('img').src;
+
+        const existingItem = cart.find(x => x.id === id);
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ id, name, price, img, quantity: 1 });
+        }
+
+        renderCart();
+        showToast(`${name} added to cart!`);
+        openCart();
+    });
+});
+
+// ---------- WhatsApp checkout ----------
+whatsappCheckoutBtn.addEventListener('click', () => {
+    if (cart.length === 0) {
+        showToast("Your ticket is empty! Add sweet delights first.");
+        return;
+    }
+
+    let message = `Hi *Sweet Haven Bakery*! 🍰\nI'd like to place an order (Ticket ${ticketNumberEl.textContent}):\n\n`;
+    let grandTotal = 0;
+
+    cart.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        grandTotal += itemTotal;
+        message += `*${index + 1}. ${item.name}*\n`;
+        message += `   Quantity: ${item.quantity} x Rs. ${item.price}\n`;
+        message += `   Total: Rs. ${itemTotal}\n\n`;
+    });
+
+    message += `--------------------------------\n`;
+    message += `*Grand Total: Rs. ${grandTotal}*\n`;
+    message += `--------------------------------\n`;
+    message += `Please confirm my order. Thank you! ✨`;
+
+    const encodedMsg = encodeURIComponent(message);
+    const whatsappURL = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodedMsg}`;
+
+    window.open(whatsappURL, '_blank');
+});
+
+// ---------- Scroll reveal ----------
+function revealOnScroll() {
+    const reveals = document.querySelectorAll(".reveal");
+    const windowHeight = window.innerHeight;
+    const elementVisible = 120;
+
+    reveals.forEach(el => {
+        const elementTop = el.getBoundingClientRect().top;
+        if (elementTop < windowHeight - elementVisible) {
+            el.classList.add("active");
+        }
+    });
+}
+window.addEventListener("scroll", revealOnScroll);
+revealOnScroll();
+
+// ---------- Back to top ----------
+window.onscroll = function () {
+    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        scrollToTopBtn.style.display = "flex";
+    } else {
+        scrollToTopBtn.style.display = "none";
+    }
+};
+
+scrollToTopBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+});

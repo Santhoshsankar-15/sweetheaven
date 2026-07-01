@@ -3,25 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sweet Haven Bakery - Premium Online Store</title>
-    
-    <!-- Google Fonts & FontAwesome Icons for Premium Look -->
+    <title>Sweet Haven Bakery — Handcrafted Daily, Chennai</title>
+
+    <!-- Fonts: Fraunces (display, bakery-warm serif) + Inter (body) + Space Mono (ticket/price accents) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    
 </head>
 <body>
 
-    <!-- 1. Header & Navigation -->
+    <!-- Header -->
     <header>
-        <a href="#" class="logo-container">
-            <div class="logo-icon">
-                <i class="fa-solid fa-cake-candles"></i>
-            </div>
-            <span class="logo-text">Sweet Haven Bakery</span>
+        <a href="#home" class="logo-container">
+            <span class="logo-mark"><i class="fa-solid fa-cake-candles"></i></span>
+            <span class="logo-text">Sweet Haven</span>
         </a>
         <nav>
             <a href="#home">Home</a>
@@ -35,210 +32,185 @@
         </nav>
     </header>
 
-    <!-- 2. Premium Crossfading Slider Hero Section -->
+    <!-- Hero -->
     <section id="home" class="hero">
-        
-        <!-- Sliding Backgrounds Layer -->
-        <div class="hero-bg-container" id="heroBgContainer">
-            <!-- Slide 1 Background (Cakes) -->
-            <div class="hero-slide active" style="background-image: url('https://images.unsplash.com/photo-1517433456452-f9633a875f6f?auto=format&fit=crop&w=1600&q=80');"></div>
-            <!-- Slide 2 Background (Croissants) -->
-            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=1600&q=80');"></div>
-            <!-- Slide 3 Background (Cookies) -->
-            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=1600&q=80');"></div>
+        <div class="hero-left">
+            <span class="hero-stamp">Est. Chennai</span>
+            <p class="hero-eyebrow">— Fresh from the oven, every single day —</p>
+            <h1>Baked with<br><em>butter, time</em><br>&amp; a little fuss.</h1>
+            <p class="hero-sub">Small-batch cakes, cookies and pastries made the slow way — no shortcuts, no mixes, just really good ingredients.</p>
+            <a href="#menu" class="btn">See Today's Menu</a>
         </div>
 
-        <!-- Stable Luxury Dark Overlay -->
-        <div class="hero-overlay"></div>
-
-        <!-- Stable Foreground Content & CTA Button -->
-        <div class="hero-content">
-            <h1>Sweet Haven Bakery</h1>
-            <p>Handcrafted premium custom bakes designed for your golden moments.</p>
-            <a href="#menu" class="btn">Explore Menu</a>
-        </div>
-
-        <!-- Silent Navigation Dots (Indicates slide transitions) -->
-        <div class="hero-dots" id="heroDotsContainer">
-            <button class="hero-dot active" data-slide="0"></button>
-            <button class="hero-dot" data-slide="1"></button>
-            <button class="hero-dot" data-slide="2"></button>
+        <div class="hero-right">
+            <div class="hero-photo-frame" id="heroBgContainer">
+                <div class="hero-slide active" style="background-image: url('https://images.unsplash.com/photo-1517433456452-f9633a875f6f?auto=format&fit=crop&w=1200&q=80');"></div>
+                <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=1200&q=80');"></div>
+                <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=1200&q=80');"></div>
+                <div class="hero-dots" id="heroDotsContainer">
+                    <button class="hero-dot active" data-slide="0" aria-label="Show cakes photo"></button>
+                    <button class="hero-dot" data-slide="1" aria-label="Show croissants photo"></button>
+                    <button class="hero-dot" data-slide="2" aria-label="Show cookies photo"></button>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- 3. Featured Products Menu -->
+    <!-- Menu -->
     <section id="menu" class="products">
-        <h2>Featured Delights</h2>
-        <p class="section-desc">Select a category to explore our premium creations.</p>
+        <p class="eyebrow">— Baked Today —</p>
+        <h2>From the Counter</h2>
+        <p class="section-desc">Everything below is made in-house this morning. Tap a category to browse.</p>
 
-        <!-- Product Cards Grid -->
-        <div class="product-grid">
-            
-            <!-- Product 1 (Cakes) -->
+        <div class="filter-tabs" id="filterTabs">
+            <button class="filter-tab active" data-filter="all">All</button>
+            <button class="filter-tab" data-filter="cakes">Cakes</button>
+            <button class="filter-tab" data-filter="pastries">Pastries</button>
+            <button class="filter-tab" data-filter="cookies">Cookies</button>
+        </div>
+
+        <div class="product-grid" id="productGrid">
+
             <div class="product-card reveal" data-category="cakes" data-id="1">
                 <div class="product-img-container">
-                    <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=500&q=80" alt="Chocolate Cake">
+                    <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=500&q=80" alt="Chocolate Fudge Cake">
+                    <span class="price-tag">Rs. 450</span>
                 </div>
                 <h3>Chocolate Fudge Cake</h3>
-                <p class="price">Rs. 450</p>
-                <button class="add-to-cart-btn">
-                    <i class="fa-solid fa-cart-plus"></i> Add to Cart
-                </button>
+                <p class="card-note">Dark cocoa layers, whipped ganache</p>
+                <button class="add-to-cart-btn"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
             </div>
 
-            <!-- Product 2 (Cookies) -->
             <div class="product-card reveal" data-category="cookies" data-id="2">
                 <div class="product-img-container">
-                    <img src="https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=500&q=80" alt="Cookies">
+                    <img src="https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=500&q=80" alt="Choco Chip Cookies">
+                    <span class="price-tag">Rs. 150</span>
                 </div>
                 <h3>Choco Chip Cookies</h3>
-                <p class="price">Rs. 150</p>
-                <button class="add-to-cart-btn">
-                    <i class="fa-solid fa-cart-plus"></i> Add to Cart
-                </button>
+                <p class="card-note">Crisp edge, soft chewy centre</p>
+                <button class="add-to-cart-btn"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
             </div>
 
-            <!-- Product 3 (Pastries) -->
             <div class="product-card reveal" data-category="pastries" data-id="3">
                 <div class="product-img-container">
-                    <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=500&q=80" alt="Croissant">
+                    <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=500&q=80" alt="Butter Croissant">
+                    <span class="price-tag">Rs. 90</span>
                 </div>
                 <h3>Butter Croissant</h3>
-                <p class="price">Rs. 90</p>
-                <button class="add-to-cart-btn">
-                    <i class="fa-solid fa-cart-plus"></i> Add to Cart
-                </button>
+                <p class="card-note">72-hour laminated dough</p>
+                <button class="add-to-cart-btn"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
             </div>
 
-            <!-- Product 4 (Cakes) -->
             <div class="product-card reveal" data-category="cakes" data-id="4">
                 <div class="product-img-container">
-                    <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=500&q=80" alt="Strawberry Cake">
+                    <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=500&q=80" alt="Strawberry Cream Cake">
+                    <span class="price-tag">Rs. 550</span>
                 </div>
                 <h3>Strawberry Cream Cake</h3>
-                <p class="price">Rs. 550</p>
-                <button class="add-to-cart-btn">
-                    <i class="fa-solid fa-cart-plus"></i> Add to Cart
-                </button>
+                <p class="card-note">Fresh cream, seasonal berries</p>
+                <button class="add-to-cart-btn"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
             </div>
 
-            <!-- Product 5 (Pastries) -->
             <div class="product-card reveal" data-category="pastries" data-id="5">
                 <div class="product-img-container">
-                    <img src="https://images.unsplash.com/photo-1614707267537-b85acf00c4b8?auto=format&fit=crop&w=500&q=80" alt="Cupcake">
+                    <img src="https://images.unsplash.com/photo-1614707267537-b85acf00c4b8?auto=format&fit=crop&w=500&q=80" alt="Red Velvet Cupcake">
+                    <span class="price-tag">Rs. 180</span>
                 </div>
                 <h3>Red Velvet Cupcake</h3>
-                <p class="price">Rs. 180</p>
-                <button class="add-to-cart-btn">
-                    <i class="fa-solid fa-cart-plus"></i> Add to Cart
-                </button>
+                <p class="card-note">Cream cheese frosting swirl</p>
+                <button class="add-to-cart-btn"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
             </div>
 
-            <!-- Product 6 (Cookies) -->
             <div class="product-card reveal" data-category="cookies" data-id="6">
                 <div class="product-img-container">
-                    <img src="https://images.unsplash.com/photo-1558961309-dbdf717a13d8?auto=format&fit=crop&w=500&q=80" alt="Almond Cookies">
+                    <img src="https://images.unsplash.com/photo-1558961309-dbdf717a13d8?auto=format&fit=crop&w=500&q=80" alt="Premium Almond Biscotti">
+                    <span class="price-tag">Rs. 220</span>
                 </div>
-                <h3>Premium Almond Biscotti</h3>
-                <p class="price">Rs. 220</p>
-                <button class="add-to-cart-btn">
-                    <i class="fa-solid fa-cart-plus"></i> Add to Cart
-                </button>
+                <h3>Almond Biscotti</h3>
+                <p class="card-note">Twice-baked, toasted almonds</p>
+                <button class="add-to-cart-btn"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
             </div>
 
         </div>
+
+        <p class="empty-filter-msg" id="emptyFilterMsg" style="display:none;">Nothing in this category yet — check back soon!</p>
     </section>
 
-    <!-- 4. Dynamic Cart Sidebar & Overlay -->
+    <!-- Cart Sidebar -->
     <div class="cart-overlay" id="cartOverlay"></div>
     <div class="cart-sidebar" id="cartSidebar">
         <div class="cart-header">
-            <h3>Your Shopping Cart</h3>
-            <button class="close-cart-btn" id="closeCartBtn">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
+            <div>
+                <h3>Order Ticket</h3>
+                <span class="ticket-number" id="ticketNumber">#0000</span>
+            </div>
+            <button class="close-cart-btn" id="closeCartBtn"><i class="fa-solid fa-xmark"></i></button>
         </div>
-        
-        <!-- Cart Items dynamic container -->
+        <div class="cart-perforation"></div>
+
         <div class="cart-body" id="cartItemsList">
-            <div class="empty-cart-msg">Your cart is empty! 🍰</div>
+            <div class="empty-cart-msg">Your ticket is blank! 🍰<br><span>Add something sweet.</span></div>
         </div>
 
         <div class="cart-footer">
             <div class="total-container">
-                <span>Subtotal:</span>
+                <span>Subtotal</span>
                 <span class="total-price" id="cartTotalPrice">Rs. 0</span>
             </div>
             <button class="checkout-btn" id="whatsappCheckoutBtn">
-                <i class="fa-brands fa-whatsapp"></i> Order via WhatsApp
+                <i class="fa-brands fa-whatsapp"></i> Send Order on WhatsApp
             </button>
         </div>
     </div>
 
-    <!-- 5. Testimonials Section -->
+    <!-- Testimonials -->
     <section class="testimonials">
-        <h2>What Our Sweet Lovers Say</h2>
-        <p style="color: #6d5038;">Premium customer feedback of Sweet Haven.</p>
+        <p class="eyebrow">— Notes From Regulars —</p>
+        <h2>What Sweet Lovers Say</h2>
         <div class="testimonials-grid">
             <div class="review-card reveal">
                 <div class="review-stars">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
                 </div>
-                <p class="review-text">"The Chocolate Fudge Cake from Sweet Haven is pure heaven! Super moist and perfectly sweet. My family's absolute favorite now."</p>
-                <h4 class="customer-name">- Priya R., Chennai</h4>
+                <p class="review-text">The Chocolate Fudge Cake is pure heaven — super moist and perfectly sweet. My family's absolute favourite now.</p>
+                <h4 class="customer-name">— Priya R., Chennai</h4>
             </div>
-
             <div class="review-card reveal">
                 <div class="review-stars">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
                 </div>
-                <p class="review-text">"Flakiest croissants in town! Feels exactly like eating at a premium Parisian cafe. Highly recommend their morning bakes."</p>
-                <h4 class="customer-name">- Rahul Verma</h4>
+                <p class="review-text">Flakiest croissants in town. Feels exactly like a Parisian morning bake, no exaggeration.</p>
+                <h4 class="customer-name">— Rahul Verma</h4>
             </div>
         </div>
     </section>
 
-    <!-- 6. About & Contact Section -->
+    <!-- About & Contact -->
     <section id="about" class="about-contact">
         <div class="about-box reveal">
             <h2>Our Story</h2>
-            <p>Welcome to <strong>Sweet Haven Bakery</strong>! We are passionate about creating delicious, handcrafted treats that bring joy to your everyday life.</p>
-            <p>From custom designer cakes to warm, flaky morning croissants, everything is baked fresh daily using premium, high-quality ingredients with standard hygiene.</p>
+            <p>Welcome to <strong>Sweet Haven Bakery</strong>. We're passionate about handcrafted treats that fit into your everyday life — and your celebrations.</p>
+            <p>From custom designer cakes to warm morning croissants, everything is baked fresh daily with premium ingredients and careful hands.</p>
         </div>
-
         <div class="contact-box reveal">
-            <h2>Visit or call Us</h2>
+            <h2>Visit or Call Us</h2>
             <ul>
                 <li><i class="fa-solid fa-location-dot"></i> <span>123 Baker's Street, Sweet Town, Chennai - 600001</span></li>
                 <li><i class="fa-solid fa-phone"></i> <span>+91 98765 43210</span></li>
                 <li><i class="fa-solid fa-envelope"></i> <span>hello@sweethaven.com</span></li>
-                <li><i class="fa-solid fa-clock"></i> <span>Everyday: 8:00 AM - 10:00 PM</span></li>
+                <li><i class="fa-solid fa-clock"></i> <span>Everyday: 8:00 AM – 10:00 PM</span></li>
             </ul>
         </div>
     </section>
 
-    <!-- Toast Notification Anchor (Rule Guardrail - No Alert Block) -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- Back to top floating button -->
-    <button id="scrollToTopBtn" title="Go to top">
-        <i class="fa-solid fa-arrow-up"></i>
-    </button>
+    <button id="scrollToTopBtn" title="Go to top"><i class="fa-solid fa-arrow-up"></i></button>
 
-    <!-- 7. Footer -->
     <footer>
-        <p>&copy; 2026 Sweet Haven Bakery. Handcrafted with luxury premium standards.</p>
+        <p>&copy; 2026 Sweet Haven Bakery. Handcrafted with premium standards.</p>
     </footer>
 
-   
-     <script src="script.js"></script> 
+    <script src="script.js"></script>
 </body>
 </html>
