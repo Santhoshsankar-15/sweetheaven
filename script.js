@@ -267,7 +267,12 @@ whatsappCheckoutBtn.addEventListener('click', () => {
     message += `Please confirm my order. Thank you! ✨`;
 
     const encodedMsg = encodeURIComponent(message);
-    const whatsappURL = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodedMsg}`;
+    function openWhatsApp() {
+    const phoneNumber = "919788631351";
+    const url = `https://wa.me/${phoneNumber}?text=Hello!%20I%20have%20a%20question.`;
+  
+    window.open(url, '_blank');
+    }
 
     window.open(whatsappURL, '_blank');
 });
